@@ -1,0 +1,43 @@
+skypro=# CREATE TABLE city (
+skypro(# city_id INT PRIMARY KEY NOT NULL,
+skypro(# city_name VARCHAR(20) NOT NULL
+skypro(# );
+
+skypro=# ALTER TABLE employee ADD COLUMN city_id INT;
+
+skypro=# ALTER TABLE employee ADD COLUMN city_id TYPE INT REFERENCES city (city_id);
+
+skypro=# INSERT INTO city (
+skypro(# city_id, city_name)
+skypro-# VALUES (1, 'Moscow'),
+skypro-# (2, 'Kiev'),
+skypro-# (3, 'Rostov'),
+skypro-# (4, 'Sochi');
+
+skypro=# UPDATE employee SET city_id = 1 WHERE id = 1;
+skypro=# UPDATE employee SET city_id = 2 WHERE id = 2;
+skypro=# UPDATE employee SET city_id = 3 WHERE id = 4;
+skypro=# UPDATE employee SET city_id = 2 WHERE id = 5;
+skypro=# UPDATE employee SET city_id = 3 WHERE id = 6;
+
+skypro=# SELECT employee.first_name, employee.last_name, city.city_name
+skypro-# FROM employee
+skypro-# JOIN city ON employee.city_id = city.city_id;
+
+skypro=# SELECT city.city_name, employee.first_name, employee.last_name
+skypro-# FROM city
+skypro-# LEFT JOIN employee ON city.city_id=employee.city_id;
+
+skypro=# SELECT employee.first_name, city.city_name
+skypro-# FROM employee
+skypro-# FULL OUTER JOIN city
+skypro-# ON employee.city_id=city.city_id;
+
+skypro=# SELECT employee.first_name, city.city_name
+skypro-# FROM employee
+skypro-# CROSS JOIN city;
+
+skypro=# SELECT city.city_name, employee.first_name
+skypro-# FROM city
+skypro-# LEFT JOIN employee ON city.city_id=employee.city_id
+skypro-# WHERE employee.first_name IS NULL;
